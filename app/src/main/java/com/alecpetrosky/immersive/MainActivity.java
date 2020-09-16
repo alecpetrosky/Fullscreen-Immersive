@@ -1,13 +1,15 @@
 package com.alecpetrosky.immersive;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Color;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,50 +21,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(systemUiVisibilityChangeListener);
-        showSystemUI(); // set initial system UI visibility flags
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
-
-        /*
-        // the same as windowDrawsSystemBarBackgrounds, statusBarColor and navigationBarColor in AppTheme
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); // Added in API level 21
-        getWindow().setStatusBarColor(Color.TRANSPARENT); // Added in API level 21
-        getWindow().setNavigationBarColor(Color.TRANSPARENT); // Added in API level 21
-         */
-
-        // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); // deprecated in API level 30
-        // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION); // deprecated in API level 30
-        // getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); // unnecessary for the present task
     }
 
     View.OnSystemUiVisibilityChangeListener systemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
         @Override
         public void onSystemUiVisibilityChange(int visibility) {
-            // Note that system bars will only be "visible" if none of the
-            // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
             if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                // TODO: The system bars are visible. Make any desired
-                // adjustments to your UI, such as showing the action bar or
-                // other navigational controls.
                 isFullScreen = false;
             } else {
-                // TODO: The system bars are NOT visible. Make any desired
-                // adjustments to your UI, such as hiding the action bar or
-                // other navigational controls.
                 isFullScreen = true;
             }
         }
     };
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            Log.d("TAG", "landscape");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            // Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+            Log.d("TAG", "portrait");
+        }
     }
 
-    // onWindowFocusChanged()
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSystemUI();
+    }
 
-    public void onButtonClick(View view) {
+    private void checkSystemUI() {
+        if (isFullScreen) {
+            hideSystemUI();
+        } else {
+            showSystemUI();
+        }
+    }
+
+    public void toggleSystemUI() {
         if (isFullScreen) {
             showSystemUI();
         } else {
@@ -88,12 +90,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Shows the system bars by removing all the flags
-// except for the ones that make the content appear under the system bars.
+    // except for the ones that make the content appear under the system bars.
     private void showSystemUI() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    public void onImageViewClick(View view) {
+        TextView textView = findViewById(R.id.textView);
+        textView.setVisibility(View.INVISIBLE);
+        toggleSystemUI();
     }
 }

@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Immersive</string>
+    <string name="app_name">Immersive Mode Demo</string>
+    <string name="click_me">Click Me!</string>
+    <string name="little_llama">Little Llama</string>
 </resources>
