@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_actions_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_actions_height"
+    android:background="@drawable/gradient_fill"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <ImageView
+        android:id="@+id/bottom_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/toggle_favorite"
+        android:layout_marginTop="@dimen/bottom_actions_margin_top"
+        android:src="@drawable/ic_heart_outline"
+        app:layout_constraintEnd_toStartOf="@+id/bottom_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bottom_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/edit"
+        android:layout_marginTop="@dimen/bottom_actions_margin_top"
+        android:src="@drawable/ic_brush_sharp"
+        app:layout_constraintEnd_toStartOf="@+id/bottom_share"
+        app:layout_constraintStart_toEndOf="@+id/bottom_favorite"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bottom_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/share"
+        android:layout_marginTop="@dimen/bottom_actions_margin_top"
+        android:src="@drawable/ic_share_social_sharp"
+        app:layout_constraintEnd_toStartOf="@+id/bottom_delete"
+        app:layout_constraintStart_toEndOf="@+id/bottom_edit"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bottom_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/delete"
+        android:layout_marginTop="@dimen/bottom_actions_margin_top"
+        android:src="@drawable/ic_trash_bin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bottom_share"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -105,15 +105,8 @@ public class MainActivity extends AppCompatActivity {
     View.OnSystemUiVisibilityChangeListener systemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
         @Override
         public void onSystemUiVisibilityChange(int visibility) {
-            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                isFullScreen = false;
-                toolbar.setVisibility(View.VISIBLE);
-                bottomActions.setVisibility(View.VISIBLE);
-            } else {
-                isFullScreen = true;
-                toolbar.setVisibility(View.INVISIBLE);
-                bottomActions.setVisibility(View.INVISIBLE);
-            }
+            isFullScreen = ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0);
+            updateSystemUI();
         }
     };
 
@@ -132,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        checkSystemUI();
+        updateSystemUI();
         initBottomActionsLayout(false);
     }
 
@@ -142,12 +135,18 @@ public class MainActivity extends AppCompatActivity {
         bottomActions.getLayoutParams().height = bottomActionsHeight + navigationBarHeight;
     }
 
-    private void checkSystemUI() {
+    private void updateSystemUI() {
+        float alpha;
         if (isFullScreen) {
             hideSystemUI();
+            alpha = 0f;
         } else {
             showSystemUI();
+            alpha = 1f;
         }
+        topShadow.animate().alpha(alpha).start();
+        toolbar.animate().alpha(alpha).start();
+        bottomActions.animate().alpha(alpha).start();
     }
 
     public void toggleSystemUI() {
