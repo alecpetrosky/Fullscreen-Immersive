@@ -6,9 +6,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <!-- uncomment if needed (i.e. parent theme changed) -->
+        <!-- uncomment me if needed (i.e. parent theme changed) -->
         <!-- <item name="windowActionBar">false</item> -->
-        <item name="windowNoTitle">true</item>
+
+        <!-- uncomment me if needed -->
+        <!-- <item name="windowNoTitle">true</item> -->
 
         <!--Required Api 21 above-->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

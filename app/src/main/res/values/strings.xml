@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Immersive Mode Demo</string>
-    <string name="click_me">Click Me!</string>
-    <string name="little_llama">Little Llama</string>
+    <string name="toggle_favorite">Toggle favorite</string>
+    <string name="edit">Edit</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
+
 </resources>

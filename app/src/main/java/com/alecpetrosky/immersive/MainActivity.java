@@ -1,19 +1,26 @@
 package com.alecpetrosky.immersive;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
     private boolean isFullScreen;
+    private Toolbar toolbar;
+    private View bottomActions;
+    private ImageView topShadow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +31,75 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_back);
+        // toolbar.setBackgroundColor(Color.argb(186, 0, 0, 0));
+        setSupportActionBar(toolbar);
+
+        topShadow = findViewById(R.id.top_shadow);
+        bottomActions = findViewById(R.id.bottom_actions);
+
+    }
+
+    @Override
+    public void onWindowFocusChanged (boolean hasFocus) {
+        topShadow.getLayoutParams().height = getStatusBarHeight(this) + toolbar.getMeasuredHeight();
+    }
+
+
+
+    // todo: need to consider Multi window mode, too ???
+    public static int getStatusBarHeight(Context context) {
+        int statusBarHeight = 0;
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = resources.getDimensionPixelSize(resourceId);
+        }
+        return statusBarHeight;
+    }
+
+    // todo: need to consider Multi window mode
+    public static int getNavigationBarHeight(Context context) {
+        Point appUsableSize = getAppUsableScreenSize(context);
+        Point realScreenSize = getRealScreenSize(context);
+        int navigationBarHeight = 0;
+
+        // navigation bar at the bottom
+        if (appUsableSize.y < realScreenSize.y) {
+            Resources resources = context.getResources();
+            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                navigationBarHeight = resources.getDimensionPixelSize(resourceId);
+            }
+        }
+
+        return navigationBarHeight;
+    }
+
+    public static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static Point getAppUsableScreenSize(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
+
+    public static Point getRealScreenSize(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+        return size;
     }
 
     View.OnSystemUiVisibilityChangeListener systemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
@@ -31,8 +107,12 @@ public class MainActivity extends AppCompatActivity {
         public void onSystemUiVisibilityChange(int visibility) {
             if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
                 isFullScreen = false;
+                toolbar.setVisibility(View.VISIBLE);
+                bottomActions.setVisibility(View.VISIBLE);
             } else {
                 isFullScreen = true;
+                toolbar.setVisibility(View.INVISIBLE);
+                bottomActions.setVisibility(View.INVISIBLE);
             }
         }
     };
@@ -41,12 +121,11 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Checks the orientation of the screen
+
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-            Log.d("TAG", "landscape");
+            initBottomActionsLayout(true);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            // Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-            Log.d("TAG", "portrait");
+            initBottomActionsLayout(false);
         }
     }
 
@@ -54,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkSystemUI();
+        initBottomActionsLayout(false);
+    }
+
+    private void initBottomActionsLayout(boolean skipNavigationBar) {
+        int bottomActionsHeight = (int)getResources().getDimension(R.dimen.bottom_actions_height);
+        int navigationBarHeight = (skipNavigationBar) ? 0 : getNavigationBarHeight(this);
+        bottomActions.getLayoutParams().height = bottomActionsHeight + navigationBarHeight;
     }
 
     private void checkSystemUI() {
@@ -100,8 +186,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onImageViewClick(View view) {
-        TextView textView = findViewById(R.id.textView);
-        textView.setVisibility(View.INVISIBLE);
         toggleSystemUI();
     }
 }
