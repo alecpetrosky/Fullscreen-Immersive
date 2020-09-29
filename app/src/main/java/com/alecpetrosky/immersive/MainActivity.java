@@ -1,5 +1,6 @@
 package com.alecpetrosky.immersive;
 
+import android.app.*;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -20,7 +21,8 @@ import java.io.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean isFullScreen;
+    private boolean mIsFullScreen;
+    private int mOrientation;
     private Toolbar toolbar;
     private View bottomActions;
     private ImageView topShadow;
@@ -63,8 +65,17 @@ public class MainActivity extends AppCompatActivity {
         return statusBarHeight;
     }
 
-    // todo: need to consider Multi window mode
-    public static int getNavigationBarHeight(Context context) {
+    public static int getNavigationBarHeight(Context context, int orientation) {
+        Activity activity = (Activity) context;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            return 0;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (activity.isInMultiWindowMode()) {
+                return 0;
+            }
+        }
+
         Point appUsableSize = getAppUsableScreenSize(context);
         Point realScreenSize = getRealScreenSize(context);
         int navigationBarHeight = 0;
@@ -108,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     View.OnSystemUiVisibilityChangeListener systemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
         @Override
         public void onSystemUiVisibilityChange(int visibility) {
-            isFullScreen = ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0);
+            mIsFullScreen = ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0);
             updateSystemUI();
         }
     };
@@ -116,30 +127,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
-
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            initBottomActionsLayout(true);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            initBottomActionsLayout(false);
-        }
+        mOrientation = newConfig.orientation;
+        initBottomActionsLayout();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         updateSystemUI();
-        initBottomActionsLayout(false);
+        initBottomActionsLayout();
     }
 
-    private void initBottomActionsLayout(boolean skipNavigationBar) {
+    private void initBottomActionsLayout() {
+        int navigationBarHeight = getNavigationBarHeight(this, mOrientation);
         int bottomActionsHeight = (int)getResources().getDimension(R.dimen.bottom_actions_height);
-        int navigationBarHeight = (skipNavigationBar) ? 0 : getNavigationBarHeight(this);
         bottomActions.getLayoutParams().height = bottomActionsHeight + navigationBarHeight;
     }
 
     private void updateSystemUI() {
-        if (isFullScreen) {
+        if (mIsFullScreen) {
             hideSystemUI();
             fadeOut(toolbar, topShadow, bottomActions);
         } else {
@@ -171,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toggleSystemUI() {
-        isFullScreen = !isFullScreen;
+        mIsFullScreen = !mIsFullScreen;
         updateSystemUI();
     }
 
