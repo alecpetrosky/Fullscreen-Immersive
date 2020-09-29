@@ -149,9 +149,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fadeIn(final View... views) {
-        for (View view : views) {
-            view.setVisibility(View.VISIBLE);
-            view.animate().alpha(1f).start();
+        for (final View view : views) {
+            view.animate().alpha(1f).withStartAction(new Runnable() {
+                @Override
+                public void run() {
+                    view.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 
@@ -167,11 +171,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toggleSystemUI() {
-        if (isFullScreen) {
-            showSystemUI();
-        } else {
-            hideSystemUI();
-        }
+        isFullScreen = !isFullScreen;
+        updateSystemUI();
     }
 
     private void hideSystemUI() {
