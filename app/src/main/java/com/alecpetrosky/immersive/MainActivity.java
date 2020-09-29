@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.*;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import java.io.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -136,17 +139,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateSystemUI() {
-        float alpha;
         if (isFullScreen) {
             hideSystemUI();
-            alpha = 0f;
+            fadeOut(toolbar, topShadow, bottomActions);
         } else {
             showSystemUI();
-            alpha = 1f;
+            fadeIn(toolbar, topShadow, bottomActions);
         }
-        topShadow.animate().alpha(alpha).start();
-        toolbar.animate().alpha(alpha).start();
-        bottomActions.animate().alpha(alpha).start();
+    }
+
+    private void fadeIn(final View... views) {
+        for (View view : views) {
+            view.setVisibility(View.VISIBLE);
+            view.animate().alpha(1f).start();
+        }
+    }
+
+    private void fadeOut(final View... views) {
+        for (final View view : views) {
+            view.animate().alpha(0f).withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                    view.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
     public void toggleSystemUI() {
@@ -186,5 +203,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onImageViewClick(View view) {
         toggleSystemUI();
+    }
+
+    @Override
+    public void onUserInteraction() {
+        Log.d("xxx","Touch anywhere happened");
+        super.onUserInteraction();
+    }
+
+    public void testClick(View view) {
+        Log.d("xxx","Button clicked");
     }
 }

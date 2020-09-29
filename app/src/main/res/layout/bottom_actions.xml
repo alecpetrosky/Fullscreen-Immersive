@@ -17,6 +17,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/toggle_favorite"
         android:layout_marginTop="@dimen/bottom_actions_margin_top"
+        android:onClick="testClick"
         android:src="@drawable/ic_heart_outline"
         app:layout_constraintEnd_toStartOf="@+id/bottom_edit"
         app:layout_constraintStart_toStartOf="parent"
