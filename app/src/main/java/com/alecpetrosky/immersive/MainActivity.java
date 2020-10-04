@@ -1,23 +1,24 @@
 package com.alecpetrosky.immersive;
 
 import android.app.*;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Point;
-import android.os.Build;
-import android.os.Bundle;
+import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.os.*;
 import android.util.*;
-import android.view.Display;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
+import android.view.*;
+import android.widget.*;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.*;
+import androidx.appcompat.app.*;
 import androidx.appcompat.widget.Toolbar;
 
-import java.io.*;
+import static com.alecpetrosky.immersive.util.UI.fadeIn;
+import static com.alecpetrosky.immersive.util.UI.fadeOut;
+import static com.alecpetrosky.immersive.util.UI.getNavigationBarHeight;
+import static com.alecpetrosky.immersive.util.UI.getStatusBarHeight;
+import static com.alecpetrosky.immersive.util.UI.hideSystemUI;
+import static com.alecpetrosky.immersive.util.UI.showSystemUI;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(systemUiVisibilityChangeListener);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
@@ -45,82 +45,21 @@ public class MainActivity extends AppCompatActivity {
         topShadow = findViewById(R.id.top_shadow);
         bottomActions = findViewById(R.id.bottom_actions);
 
+        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(systemUiVisibilityChangeListener);
+
     }
 
     @Override
     public void onWindowFocusChanged (boolean hasFocus) {
-        topShadow.getLayoutParams().height = getStatusBarHeight(this) + toolbar.getMeasuredHeight();
-    }
-
-
-
-    // todo: need to consider Multi window mode, too ???
-    public static int getStatusBarHeight(Context context) {
-        int statusBarHeight = 0;
-        Resources resources = context.getResources();
-        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = resources.getDimensionPixelSize(resourceId);
-        }
-        return statusBarHeight;
-    }
-
-    public static int getNavigationBarHeight(Context context, int orientation) {
-        Activity activity = (Activity) context;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return 0;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (activity.isInMultiWindowMode()) {
-                return 0;
-            }
-        }
-
-        Point appUsableSize = getAppUsableScreenSize(context);
-        Point realScreenSize = getRealScreenSize(context);
-        int navigationBarHeight = 0;
-
-        // navigation bar at the bottom
-        if (appUsableSize.y < realScreenSize.y) {
-            Resources resources = context.getResources();
-            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                navigationBarHeight = resources.getDimensionPixelSize(resourceId);
-            }
-        }
-
-        return navigationBarHeight;
-    }
-
-    public static int pxToDp(int px) {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    public static Point getAppUsableScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
-    }
-
-    public static Point getRealScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        display.getRealSize(size);
-        return size;
+        updateSystemUI();
     }
 
     View.OnSystemUiVisibilityChangeListener systemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
         @Override
         public void onSystemUiVisibilityChange(int visibility) {
-            mIsFullScreen = ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0);
-            updateSystemUI();
+        mIsFullScreen = ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0);
+        Log.d("xxx", "mIsFullScreen: " + mIsFullScreen);
+        updateSystemUI();
         }
     };
 
@@ -128,14 +67,13 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mOrientation = newConfig.orientation;
-        initBottomActionsLayout();
+        updateSystemUI();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         updateSystemUI();
-        initBottomActionsLayout();
     }
 
     private void initBottomActionsLayout() {
@@ -145,34 +83,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateSystemUI() {
+        topShadow.getLayoutParams().height = getStatusBarHeight(this) + toolbar.getMeasuredHeight();
+        initBottomActionsLayout();
         if (mIsFullScreen) {
-            hideSystemUI();
+            hideSystemUI(this);
             fadeOut(toolbar, topShadow, bottomActions);
         } else {
-            showSystemUI();
+            showSystemUI(this);
             fadeIn(toolbar, topShadow, bottomActions);
-        }
-    }
-
-    private void fadeIn(final View... views) {
-        for (final View view : views) {
-            view.animate().alpha(1f).withStartAction(new Runnable() {
-                @Override
-                public void run() {
-                    view.setVisibility(View.VISIBLE);
-                }
-            });
-        }
-    }
-
-    private void fadeOut(final View... views) {
-        for (final View view : views) {
-            view.animate().alpha(0f).withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    view.setVisibility(View.GONE);
-                }
-            });
         }
     }
 
@@ -181,44 +99,11 @@ public class MainActivity extends AppCompatActivity {
         updateSystemUI();
     }
 
-    private void hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-
-    // Shows the system bars by removing all the flags
-    // except for the ones that make the content appear under the system bars.
-    private void showSystemUI() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
-
     public void onImageViewClick(View view) {
         toggleSystemUI();
     }
 
-    @Override
-    public void onUserInteraction() {
-        Log.d("xxx","Touch anywhere happened");
-        super.onUserInteraction();
-    }
-
     public void testClick(View view) {
-        Log.d("xxx","Button clicked");
+        // Log.d("xxx","Button clicked");
     }
 }

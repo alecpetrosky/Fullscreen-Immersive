@@ -39,6 +39,10 @@ Solved with this method:
         }
 ```
 
+### Hiding UI on Tap
+
+- `onUserInteraction` is called every time user switches between apps, so this method does not suit this purpose.
+
 ## Credits
 
 - Photo **Llama on Machu Picchu** By Alexandre Buisse (Nattfodd) - Own work (http://www.alexandrebuisse.org), CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2841095
