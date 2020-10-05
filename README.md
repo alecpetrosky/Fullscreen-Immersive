@@ -42,6 +42,9 @@ Solved with this method:
 ### Hiding UI on Tap
 
 - `onUserInteraction` is called every time user switches between apps, so this method does not suit this purpose.
+- Simple `onClick` breaks swipe from the screen edges gesture.
+
+Solved with `OnSwipeTouchListener` class.
 
 ## Credits
 

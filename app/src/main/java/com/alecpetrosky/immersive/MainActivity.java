@@ -13,6 +13,8 @@ import androidx.annotation.*;
 import androidx.appcompat.app.*;
 import androidx.appcompat.widget.Toolbar;
 
+import com.alecpetrosky.immersive.listener.*;
+
 import static com.alecpetrosky.immersive.util.UI.fadeIn;
 import static com.alecpetrosky.immersive.util.UI.fadeOut;
 import static com.alecpetrosky.immersive.util.UI.getNavigationBarHeight;
@@ -46,7 +48,19 @@ public class MainActivity extends AppCompatActivity {
         bottomActions = findViewById(R.id.bottom_actions);
 
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(systemUiVisibilityChangeListener);
+        findViewById(R.id.fullscreen_layout).setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onClick() {
+                super.onClick();
+                toggleSystemUI();
+            }
+        });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateSystemUI();
     }
 
     @Override
@@ -58,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSystemUiVisibilityChange(int visibility) {
         mIsFullScreen = ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0);
-        Log.d("xxx", "mIsFullScreen: " + mIsFullScreen);
         updateSystemUI();
         }
     };
@@ -67,12 +80,6 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mOrientation = newConfig.orientation;
-        updateSystemUI();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         updateSystemUI();
     }
 
@@ -97,13 +104,5 @@ public class MainActivity extends AppCompatActivity {
     public void toggleSystemUI() {
         mIsFullScreen = !mIsFullScreen;
         updateSystemUI();
-    }
-
-    public void onImageViewClick(View view) {
-        toggleSystemUI();
-    }
-
-    public void testClick(View view) {
-        // Log.d("xxx","Button clicked");
     }
 }
