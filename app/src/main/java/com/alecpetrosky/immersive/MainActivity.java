@@ -98,35 +98,36 @@ public class MainActivity extends AppCompatActivity {
      * I think the only reasonable use of Activity orientation changes now is to update your resources.
      * See https://stackoverflow.com/a/41401863/13776879
      */
+    /*
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateSystemUI();
     }
+     */
 
     private void updateSystemUI() {
         int statusBarHeight = 0;
         int navigationBarHeight = 0;
         int deviceOrientation = getDeviceOrientation(this);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); // Added in API level 21
-        getWindow().setStatusBarColor(Color.TRANSPARENT); // Added in API level 21
-        getWindow().setNavigationBarColor(Color.TRANSPARENT); // Added in API level 21
-
         if (isInSingleWindowMode(this)) {
             statusBarHeight = getStatusBarHeight(this);
             if (deviceOrientation == Configuration.ORIENTATION_PORTRAIT) {
                 navigationBarHeight = getNavigationBarHeight(this);
             }
-        } else if (deviceOrientation == Configuration.ORIENTATION_PORTRAIT) {
-            if (isOnTopScreen(getWindow().getDecorView())) {
-                statusBarHeight = getStatusBarHeight(this);
-            } else {
-                navigationBarHeight = getNavigationBarHeight(this);
-            }
         } else {
-            statusBarHeight = getStatusBarHeight(this);
+            if (deviceOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (isOnTopScreen(getWindow().getDecorView())) {
+                    statusBarHeight = getStatusBarHeight(this);
+                } else {
+                    navigationBarHeight = getNavigationBarHeight(this);
+                }
+            } else {
+                statusBarHeight = getStatusBarHeight(this);
+            }
         }
+
 
         topToolbar.setPadding(0, statusBarHeight, 0, 0);
         topShadow.getLayoutParams().height = topToolbar.getMeasuredHeight();

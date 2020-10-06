@@ -34,15 +34,6 @@ public class UI {
             navigationBarHeight = resources.getDimensionPixelSize(resourceId);
         }
 
-        /* does not work in multi-window mode!
-        Point appUsableSize = getAppUsableScreenSize(context);
-        Point realScreenSize = getRealScreenSize(context);
-        int navigationBarHeight = 0;
-        // navigation bar at the bottom
-        if (appUsableSize.y < realScreenSize.y) {
-        }
-         */
-
         return navigationBarHeight;
     }
 
