@@ -8,6 +8,9 @@ Android immersive fullscreen activity which can be used as base activity for a v
 
 - Lollipop 5.0 (API 21) and up.
 - Support display cutouts.
+- Hiding/showing UI on tap.
+- Handling screen rotation.
+- Handling multi-window mode mode.
 
 ## Solved Challenges
 
@@ -67,3 +70,7 @@ Solved with https://stackoverflow.com/a/41401863/13776879
 
 - Photo **Llama on Machu Picchu** By Alexandre Buisse (Nattfodd) - Own work (http://www.alexandrebuisse.org), CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2841095
 - Icons by [Ben Sperry](https://github.com/ionic-team/ionicons), MIT, https://github.com/ionic-team/ionicons/blob/master/LICENSE
+
+## License
+
+The project is licensed under the [MIT](LICENSE).
