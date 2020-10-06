@@ -63,7 +63,7 @@ Solved with https://stackoverflow.com/a/41401863/13776879
 
 ## Known bugs
 
-- Status bar icons color in vertical multi-window mode if the app window is in the second position ([#1](https://github.com/alecpetrosky/photius-docker/issues/1)).
+- Status bar icons color in vertical multi-window mode if the app window is in the second position ([#1](https://github.com/alecpetrosky/Android-Immerse-Demo/issues/1)).
 
 ## Credits
 
