@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
-
     /**
      * There is no link anymore between Activity orientation changing and device physically being rotated.
      * I think the only reasonable use of Activity orientation changes now is to update your resources.

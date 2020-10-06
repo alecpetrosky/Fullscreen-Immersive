@@ -3,4 +3,5 @@
     <dimen name="default_top_shadow_height">72dp</dimen>
     <dimen name="bottom_toolbar_height">78dp</dimen>
     <dimen name="bottom_toolbar_margin_top">30dp</dimen>
+    <dimen name="bottom_button_padding">8dp</dimen>
 </resources>
