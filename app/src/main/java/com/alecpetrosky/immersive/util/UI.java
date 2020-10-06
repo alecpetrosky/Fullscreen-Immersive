@@ -26,18 +26,22 @@ public class UI {
 
     public static int getNavigationBarHeight(Context context) {
         // Activity activity = (Activity) context;
+
+        int navigationBarHeight = 0;
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            navigationBarHeight = resources.getDimensionPixelSize(resourceId);
+        }
+
+        /* does not work in multi-window mode!
         Point appUsableSize = getAppUsableScreenSize(context);
         Point realScreenSize = getRealScreenSize(context);
         int navigationBarHeight = 0;
-
         // navigation bar at the bottom
         if (appUsableSize.y < realScreenSize.y) {
-            Resources resources = context.getResources();
-            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                navigationBarHeight = resources.getDimensionPixelSize(resourceId);
-            }
         }
+         */
 
         return navigationBarHeight;
     }

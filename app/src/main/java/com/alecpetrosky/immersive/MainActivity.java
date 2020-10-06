@@ -1,6 +1,7 @@
 package com.alecpetrosky.immersive;
 
 import android.content.res.*;
+import android.graphics.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
@@ -107,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
         int statusBarHeight = 0;
         int navigationBarHeight = 0;
         int deviceOrientation = getDeviceOrientation(this);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); // Added in API level 21
+        getWindow().setStatusBarColor(Color.TRANSPARENT); // Added in API level 21
+        getWindow().setNavigationBarColor(Color.TRANSPARENT); // Added in API level 21
 
         if (isInSingleWindowMode(this)) {
             statusBarHeight = getStatusBarHeight(this);
