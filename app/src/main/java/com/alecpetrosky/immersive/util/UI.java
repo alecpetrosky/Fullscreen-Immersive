@@ -5,7 +5,11 @@ import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
 import android.os.*;
+import android.util.*;
 import android.view.*;
+import android.widget.*;
+
+import androidx.annotation.*;
 
 public class UI {
 
@@ -20,17 +24,8 @@ public class UI {
         return statusBarHeight;
     }
 
-    public static int getNavigationBarHeight(Context context, int orientation) {
-        Activity activity = (Activity) context;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return 0;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (activity.isInMultiWindowMode()) {
-                return 0;
-            }
-        }
-
+    public static int getNavigationBarHeight(Context context) {
+        // Activity activity = (Activity) context;
         Point appUsableSize = getAppUsableScreenSize(context);
         Point realScreenSize = getRealScreenSize(context);
         int navigationBarHeight = 0;
@@ -105,6 +100,7 @@ public class UI {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LOW_PROFILE
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
@@ -119,6 +115,55 @@ public class UI {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
+
+    public static boolean isInSingleWindowMode(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (activity.isInMultiWindowMode()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * not expensive device real orientation resolver both for single and multi-window mode
+     * it will presumably work well with any other future kinds of modes
+     * you avoid the race condition of isInMultiWindowMode()
+     * https://stackoverflow.com/a/41401863/13776879
+     */
+    public static int getDeviceOrientation(Context context) {
+        final Context app = context.getApplicationContext();
+        WindowManager manager = (WindowManager) app.getSystemService(Context.WINDOW_SERVICE);
+        Display display = manager.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        return (height >= width) ?
+                Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    /**
+     * Get position of activity in split screen using absolute location of thew View.
+     */
+    public static boolean isOnTopScreen(@NonNull View view) {
+        final int[] location = new int[2];
+        view.getLocationOnScreen(location);
+
+        return location[1] <
+                (getScreenHeight() / 2);
+    }
+
+    public static boolean isOnBottomScreen(@NonNull View view) {
+        return !isOnTopScreen(view);
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem()
+                .getDisplayMetrics().heightPixels;
+    }
+
+
 
 
 }

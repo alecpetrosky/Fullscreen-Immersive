@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="default_top_shadow_height">88dp</dimen>
-    <dimen name="bottom_actions_height">78dp</dimen>
-    <dimen name="bottom_actions_margin_top">30dp</dimen>
+    <dimen name="default_top_shadow_height">72dp</dimen>
+    <dimen name="bottom_toolbar_height">78dp</dimen>
+    <dimen name="bottom_toolbar_margin_top">30dp</dimen>
 </resources>

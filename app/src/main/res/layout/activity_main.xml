@@ -8,12 +8,12 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/top_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:elevation="4dp"
-        android:paddingTop="36dp"
+        android:paddingTop="24dp"
         app:titleTextColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/bottom_actions"
-        layout="@layout/bottom_actions" />
+        android:id="@+id/bottom_toolbar"
+        layout="@layout/bottom_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
