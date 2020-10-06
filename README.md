@@ -1,5 +1,9 @@
 # Android-Immerse-Demo
 
+Android immersive fullscreen activity which can be used as base activity for a variety of applications, such as galleries, video playback, etc.
+
+<img src="screenshots/screenshot_phone_1.png" alt="screenshot 1" width="200" /> <img src="screenshots/screenshot_phone_2.png" alt="screenshot 2" width="200" />
+
 ## Features
 
 - Lollipop 5.0 (API 21) and up.
