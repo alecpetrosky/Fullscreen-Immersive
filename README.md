@@ -10,7 +10,7 @@ Android immersive fullscreen activity which can be used as base activity for a v
 - Support display cutouts.
 - Hiding/showing UI on tap.
 - Handling screen rotation.
-- Handling multi-window mode mode.
+- Handling **multi-window** (split screen) mode.
 
 ## Solved Challenges
 
@@ -60,10 +60,6 @@ phone's orientation is PORTRAIT but window `width` > `height`. When the app is i
 the Activity is not tied to the full display dimensions. This redefines the concept of Activity orientation.
 
 Solved with https://stackoverflow.com/a/41401863/13776879
-
-## Known bugs
-
-- Status bar icons color in vertical multi-window mode if the app window is in the second position ([#1](https://github.com/alecpetrosky/Android-Immerse-Demo/issues/1)).
 
 ## Credits
 
