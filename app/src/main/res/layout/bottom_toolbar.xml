@@ -5,7 +5,6 @@
     android:id="@+id/bottom_toolbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_toolbar_height"
-    android:background="@drawable/gradient_fill"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">

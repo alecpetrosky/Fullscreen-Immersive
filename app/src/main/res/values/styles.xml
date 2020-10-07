@@ -11,7 +11,7 @@
 
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:textColor">@color/textColorPrimary</item>
-
+        
         <!--Required Api 21 above-->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/colorOpaque</item>

@@ -68,6 +68,15 @@ public class UI {
         return true;
     }
 
+    // https://stackoverflow.com/a/4472612/13776879
+    public static void setMargins (View v, int left, int top, int right, int bottom) {
+        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(left, top, right, bottom);
+            v.requestLayout();
+        }
+    }
+
     public static int pxToDp(int px) {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }

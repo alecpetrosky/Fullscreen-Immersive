@@ -2,5 +2,6 @@
 <resources>
     <dimen name="icon_button_size">24dp</dimen>
     <dimen name="icon_button_padding">12dp</dimen>
+    <dimen name="top_toolbar_height">48dp</dimen>
     <dimen name="bottom_toolbar_height">48dp</dimen>
 </resources>

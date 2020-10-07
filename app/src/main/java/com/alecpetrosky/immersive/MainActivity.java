@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private View uiContainer;
     private Toolbar topToolbar;
     private View bottomToolbar;
+    private View topShadow;
+    private View bottomShadow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
             // Prevent jumping of the player on devices with cutout
             getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
+
+        topShadow = findViewById(R.id.top_shadow);
+        bottomShadow = findViewById(R.id.bottom_shadow);
 
         uiContainer = findViewById(R.id.ui_container);
         bottomToolbar = findViewById(R.id.bottom_toolbar);
@@ -45,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.fullscreen_layout).setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+
+                setMargins(topShadow, 0, insets.getSystemWindowInsetTop(), 0, 0);
+                setMargins(bottomShadow, 0, 0, 0, insets.getSystemWindowInsetBottom());
+
                 uiContainer.setPadding(
                         insets.getSystemWindowInsetLeft(),
                         insets.getSystemWindowInsetTop(),
@@ -98,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
     private void updateSystemUI() {
 
         if (mIsFullScreen) {
-            fadeOut(topToolbar, bottomToolbar);
+            fadeOut(topToolbar, topShadow, bottomToolbar, bottomShadow);
         } else {
-            fadeIn(topToolbar, bottomToolbar);
+            fadeIn(topToolbar, topShadow, bottomToolbar, bottomShadow);
         }
 
         // "true" fullscreen mode does not exist in multi-window mode
