@@ -1,9 +1,11 @@
 package com.alecpetrosky.immersive;
 
+import android.content.res.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
 
+import androidx.annotation.*;
 import androidx.appcompat.app.*;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.*;
@@ -62,7 +64,16 @@ public class MainActivity extends AppCompatActivity {
                 return insets.consumeSystemWindowInsets();
             }
         });
+    }
 
+    /**
+     * At least, on Lineage OS running Android 10, the activity is not restarted in automatic mode
+     * on orientation change. So, let's do it ourselves.
+     */
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        recreate();
     }
 
     @Override
