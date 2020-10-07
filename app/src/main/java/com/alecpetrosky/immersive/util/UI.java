@@ -1,85 +1,33 @@
 package com.alecpetrosky.immersive.util;
 
 import android.app.*;
-import android.content.*;
 import android.content.res.*;
-import android.graphics.*;
 import android.os.*;
-import android.util.*;
 import android.view.*;
-import android.widget.*;
-
-import androidx.annotation.*;
 
 public class UI {
 
-    // todo: need to consider Multi window mode, too ???
-    public static int getStatusBarHeight(Context context) {
-        int statusBarHeight = 0;
-        Resources resources = context.getResources();
-        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = resources.getDimensionPixelSize(resourceId);
-        }
-        return statusBarHeight;
-    }
-
-    public static int getNavigationBarHeight(Context context) {
-        // Activity activity = (Activity) context;
-
-        int navigationBarHeight = 0;
-        Resources resources = context.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            navigationBarHeight = resources.getDimensionPixelSize(resourceId);
-        }
-
-        return navigationBarHeight;
-    }
-
-    public static int pxToDp(int px) {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    public static Point getAppUsableScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
-    }
-
-    public static Point getRealScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        display.getRealSize(size);
-        return size;
-    }
-
     public static void fadeIn(final View... views) {
         for (final View view : views) {
-            view.animate().alpha(1f).withStartAction(new Runnable() {
-                @Override
-                public void run() {
-                    view.setVisibility(View.VISIBLE);
-                }
-            });
+            view.setVisibility(View.VISIBLE);
+//            view.animate().alpha(1f).withStartAction(new Runnable() {
+//                @Override
+//                public void run() {
+//                    view.setVisibility(View.VISIBLE);
+//                }
+//            });
         }
     }
 
     public static void fadeOut(final View... views) {
         for (final View view : views) {
-            view.animate().alpha(0f).withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    view.setVisibility(View.GONE);
-                }
-            });
+            view.setVisibility(View.GONE);
+//            view.animate().alpha(0f).withEndAction(new Runnable() {
+//                @Override
+//                public void run() {
+//                    view.setVisibility(View.GONE);
+//                }
+//            });
         }
     }
 
@@ -120,45 +68,12 @@ public class UI {
         return true;
     }
 
-    /**
-     * not expensive device real orientation resolver both for single and multi-window mode
-     * it will presumably work well with any other future kinds of modes
-     * you avoid the race condition of isInMultiWindowMode()
-     * https://stackoverflow.com/a/41401863/13776879
-     */
-    public static int getDeviceOrientation(Context context) {
-        final Context app = context.getApplicationContext();
-        WindowManager manager = (WindowManager) app.getSystemService(Context.WINDOW_SERVICE);
-        Display display = manager.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-        return (height >= width) ?
-                Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE;
+    public static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 
-    /**
-     * Get position of activity in split screen using absolute location of thew View.
-     */
-    public static boolean isOnTopScreen(@NonNull View view) {
-        final int[] location = new int[2];
-        view.getLocationOnScreen(location);
-
-        return location[1] <
-                (getScreenHeight() / 2);
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-
-    public static boolean isOnBottomScreen(@NonNull View view) {
-        return !isOnTopScreen(view);
-    }
-
-    public static int getScreenHeight() {
-        return Resources.getSystem()
-                .getDisplayMetrics().heightPixels;
-    }
-
-
-
 
 }

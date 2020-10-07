@@ -1,20 +1,20 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <!-- uncomment me if needed (i.e. parent theme changed) -->
-        <!-- <item name="windowActionBar">false</item> -->
-
         <!-- uncomment me if needed -->
         <!-- <item name="windowNoTitle">true</item> -->
 
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+
         <!--Required Api 21 above-->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/colorOpaque</item>
+        <item name="android:navigationBarColor">@color/colorOpaque</item>
     </style>
 </resources>

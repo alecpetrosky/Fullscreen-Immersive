@@ -1,0 +1,25 @@
+<vector android:autoMirrored="true" android:height="@dimen/icon_button_size"
+    android:viewportHeight="512" android:viewportWidth="512"
+    android:width="@dimen/icon_button_size" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#00000000"
+        android:pathData="M128,256m-48,0a48,48 0,1 1,96 0a48,48 0,1 1,-96 0"
+        android:strokeColor="@color/icon_button_stroke_color" android:strokeLineCap="round"
+        android:strokeLineJoin="round" android:strokeWidth="32"/>
+    <path android:fillColor="#00000000"
+        android:pathData="M384,112m-48,0a48,48 0,1 1,96 0a48,48 0,1 1,-96 0"
+        android:strokeColor="@color/icon_button_stroke_color" android:strokeLineCap="round"
+        android:strokeLineJoin="round" android:strokeWidth="32"/>
+    <path android:fillColor="#00000000"
+        android:pathData="M384,400m-48,0a48,48 0,1 1,96 0a48,48 0,1 1,-96 0"
+        android:strokeColor="@color/icon_button_stroke_color" android:strokeLineCap="round"
+        android:strokeLineJoin="round" android:strokeWidth="32"/>
+    <path android:fillColor="#00000000"
+        android:pathData="M169.83,279.53l172.34,96.94"
+        android:strokeColor="@color/icon_button_stroke_color" android:strokeLineCap="round"
+        android:strokeLineJoin="round" android:strokeWidth="32"/>
+    <path android:fillColor="#00000000"
+        android:pathData="M342.17,135.53l-172.34,96.94"
+        android:strokeColor="@color/icon_button_stroke_color" android:strokeLineCap="round"
+        android:strokeLineJoin="round" android:strokeWidth="32"/>
+    <path android:fillColor="#00000000" android:pathData="M0,0h512v512h-512z"/>
+</vector>
