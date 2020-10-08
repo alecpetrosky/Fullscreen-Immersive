@@ -11,6 +11,7 @@
     <!-- The color of UI text in the app bar. -->
     <color name="textColorPrimary">#FFFFFF</color>
 
-    <color name="colorOpaque">#CC000000</color>
+    <color name="colorOpaqueLight">#AA000000</color>
+    <color name="colorOpaqueDark">#CC000000</color>
     <color name="icon_button_stroke_color">#FFFFFF</color>
 </resources>

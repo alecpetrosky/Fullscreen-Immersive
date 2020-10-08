@@ -1,15 +1,16 @@
 package com.alecpetrosky.immersive;
 
+import android.annotation.*;
 import android.content.res.*;
+import android.graphics.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.*;
+import androidx.appcompat.content.res.*;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.*;
-import androidx.core.view.*;
 
 import com.alecpetrosky.immersive.listener.*;
 
@@ -95,13 +96,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         findViewById(R.id.fullscreen_layout).setOnTouchListener(null);
     }
-
-    /*
-    @Override
-    public void onWindowFocusChanged (boolean hasFocus) {
-        updateSystemUI();
-    }
-     */
 
     View.OnSystemUiVisibilityChangeListener systemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
         @Override

@@ -1,6 +1,6 @@
 # Android-Immerse-Demo
 
-Android immersive fullscreen activity which can be used as base activity for a variety of applications, such as galleries, video playback, etc.
+A modern way to implement Android immersive fullscreen activity that can be used as base activity for a variety of applications, such as galleries, video players, etc.
 
 <img src="screenshots/screenshot_phone_1.png" alt="screenshot 1" width="200" /> <img src="screenshots/screenshot_phone_2.png" alt="screenshot 2" width="200" />
 

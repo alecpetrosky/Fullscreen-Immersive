@@ -14,7 +14,7 @@
         
         <!--Required Api 21 above-->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@color/colorOpaque</item>
-        <item name="android:navigationBarColor">@color/colorOpaque</item>
+        <item name="android:statusBarColor">@color/colorOpaqueLight</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
     </style>
 </resources>
