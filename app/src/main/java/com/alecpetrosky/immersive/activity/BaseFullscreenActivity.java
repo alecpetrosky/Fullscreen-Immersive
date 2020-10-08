@@ -1,35 +1,33 @@
-package com.alecpetrosky.immersive;
+package com.alecpetrosky.immersive.activity;
 
-import android.annotation.*;
 import android.content.res.*;
-import android.graphics.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.*;
 import androidx.appcompat.app.*;
-import androidx.appcompat.content.res.*;
 import androidx.appcompat.widget.Toolbar;
 
+import com.alecpetrosky.immersive.*;
 import com.alecpetrosky.immersive.listener.*;
 
 import static com.alecpetrosky.immersive.util.UI.*;
 
-public class MainActivity extends AppCompatActivity {
+abstract public class BaseFullscreenActivity extends AppCompatActivity {
 
     private boolean mIsFullScreen;
 
     private View uiContainer;
     private Toolbar topToolbar;
-    private View bottomToolbar;
     private View topShadow;
+    private View bottomToolbar;
     private View bottomShadow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        // setContentView(R.layout.activity_main);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             // Prevent jumping of the player on devices with cutout
@@ -134,25 +132,25 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.bottom_favorite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, R.string.toggle_favorite, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.toggle_favorite, Toast.LENGTH_SHORT).show();
             }
         });
         findViewById(R.id.bottom_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, R.string.edit, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.edit, Toast.LENGTH_SHORT).show();
             }
         });
         findViewById(R.id.bottom_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, R.string.share, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.share, Toast.LENGTH_SHORT).show();
             }
         });
         findViewById(R.id.bottom_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, R.string.delete, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.delete, Toast.LENGTH_SHORT).show();
             }
         });
     }
