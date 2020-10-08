@@ -19,6 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- We need to support some fancy insets on horizontal orientation -->
     <View
         android:id="@+id/top_shadow"
         android:layout_width="match_parent"
@@ -29,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- We need to support some fancy insets on horizontal orientation -->
     <View
         android:id="@+id/bottom_shadow"
         android:layout_width="match_parent"
