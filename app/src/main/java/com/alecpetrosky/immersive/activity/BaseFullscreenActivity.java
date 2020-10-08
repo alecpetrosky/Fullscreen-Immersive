@@ -36,10 +36,14 @@ abstract public class BaseFullscreenActivity extends AppCompatActivity {
 
         topShadow = findViewById(R.id.top_shadow);
         bottomShadow = findViewById(R.id.bottom_shadow);
+        bottomShadow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {}
+        });
 
         uiContainer = findViewById(R.id.ui_container);
-        bottomToolbar = findViewById(R.id.bottom_toolbar);
 
+        bottomToolbar = findViewById(R.id.bottom_toolbar);
         topToolbar = findViewById(R.id.top_toolbar);
         topToolbar.setNavigationIcon(R.drawable.ic_chevron_back_outline);
         setSupportActionBar(topToolbar);
