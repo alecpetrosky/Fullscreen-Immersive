@@ -7,6 +7,7 @@ import android.widget.*;
 
 import androidx.annotation.*;
 import androidx.appcompat.app.*;
+import androidx.appcompat.widget.*;
 import androidx.appcompat.widget.Toolbar;
 
 import com.alecpetrosky.immersive.*;
@@ -137,24 +138,28 @@ abstract public class BaseFullscreenActivity extends AppCompatActivity {
     }
 
     private void initBottomToolbarButtons() {
+        TooltipCompat.setTooltipText(findViewById(R.id.bottom_favorite), findViewById(R.id.bottom_favorite).getContentDescription());
         findViewById(R.id.bottom_favorite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), R.string.toggle_favorite, Toast.LENGTH_SHORT).show();
             }
         });
+        TooltipCompat.setTooltipText(findViewById(R.id.bottom_edit), findViewById(R.id.bottom_edit).getContentDescription());
         findViewById(R.id.bottom_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), R.string.edit, Toast.LENGTH_SHORT).show();
             }
         });
+        TooltipCompat.setTooltipText(findViewById(R.id.bottom_share), findViewById(R.id.bottom_share).getContentDescription());
         findViewById(R.id.bottom_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), R.string.share, Toast.LENGTH_SHORT).show();
             }
         });
+        TooltipCompat.setTooltipText(findViewById(R.id.bottom_delete), findViewById(R.id.bottom_delete).getContentDescription());
         findViewById(R.id.bottom_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
