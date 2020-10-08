@@ -35,6 +35,10 @@ abstract public class BaseFullscreenActivity extends AppCompatActivity {
         }
 
         topShadow = findViewById(R.id.top_shadow);
+        topShadow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {}
+        });
         bottomShadow = findViewById(R.id.bottom_shadow);
         bottomShadow.setOnClickListener(new View.OnClickListener() {
             @Override
