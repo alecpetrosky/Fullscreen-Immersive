@@ -35,19 +35,19 @@ public class MainActivity extends AppCompatActivity {
             getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
 
-        topShadow = findViewById(R.id.top_shadow);
-        topShadow.setOnClickListener(doNothingOnClick);
-        bottomShadow = findViewById(R.id.bottom_shadow);
-        bottomShadow.setOnClickListener(doNothingOnClick);
-
         uiContainer = findViewById(R.id.ui_container);
 
-        bottomToolbar = findViewById(R.id.bottom_toolbar);
         topToolbar = findViewById(R.id.top_toolbar);
         topToolbar.setNavigationIcon(R.drawable.ic_chevron_back_outline);
         setSupportActionBar(topToolbar);
+        topShadow = findViewById(R.id.top_shadow);
+        topShadow.setOnClickListener(doNothingOnClick);
 
+        bottomToolbar = findViewById(R.id.bottom_toolbar);
         initBottomToolbarButtons();
+        bottomShadow = findViewById(R.id.bottom_shadow);
+        bottomShadow.setOnClickListener(doNothingOnClick);
+
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(onSystemUiVisibilityChangeListener);
         findViewById(R.id.fullscreen_layout).setOnApplyWindowInsetsListener(onApplyWindowInsetsListener);
     }
