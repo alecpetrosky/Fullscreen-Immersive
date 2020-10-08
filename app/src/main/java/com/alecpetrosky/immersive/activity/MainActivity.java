@@ -36,15 +36,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         topShadow = findViewById(R.id.top_shadow);
-        topShadow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
+        topShadow.setOnClickListener(doNothingOnClick);
         bottomShadow = findViewById(R.id.bottom_shadow);
-        bottomShadow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
+        bottomShadow.setOnClickListener(doNothingOnClick);
 
         uiContainer = findViewById(R.id.ui_container);
 
@@ -54,24 +48,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(topToolbar);
 
         initBottomToolbarButtons();
-        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(systemUiVisibilityChangeListener);
-
-        // See https://stackoverflow.com/a/50775459/13776879
-        findViewById(R.id.fullscreen_layout).setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
-
-                setMargins(topShadow, 0, insets.getSystemWindowInsetTop(), 0, 0);
-                setMargins(bottomShadow, 0, 0, 0, insets.getSystemWindowInsetBottom());
-
-                uiContainer.setPadding(
-                        insets.getSystemWindowInsetLeft(),
-                        insets.getSystemWindowInsetTop(),
-                        insets.getSystemWindowInsetRight(),
-                        insets.getSystemWindowInsetBottom());
-                return insets.consumeSystemWindowInsets();
-            }
-        });
+        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(onSystemUiVisibilityChangeListener);
+        findViewById(R.id.fullscreen_layout).setOnApplyWindowInsetsListener(onApplyWindowInsetsListener);
     }
 
     /**
@@ -104,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.fullscreen_layout).setOnTouchListener(null);
     }
 
-    View.OnSystemUiVisibilityChangeListener systemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
+    private View.OnSystemUiVisibilityChangeListener onSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
         @Override
         public void onSystemUiVisibilityChange(int visibility) {
             if ((visibility & View.SYSTEM_UI_FLAG_LOW_PROFILE) == 0) {
@@ -116,8 +94,30 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void updateSystemUI() {
+    // See https://stackoverflow.com/a/50775459/13776879
+    private View.OnApplyWindowInsetsListener onApplyWindowInsetsListener = new View.OnApplyWindowInsetsListener() {
+        @Override
+        public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
 
+            setMargins(topShadow, 0, insets.getSystemWindowInsetTop(), 0, 0);
+            setMargins(bottomShadow, 0, 0, 0, insets.getSystemWindowInsetBottom());
+
+            uiContainer.setPadding(
+                    insets.getSystemWindowInsetLeft(),
+                    insets.getSystemWindowInsetTop(),
+                    insets.getSystemWindowInsetRight(),
+                    insets.getSystemWindowInsetBottom());
+            return insets.consumeSystemWindowInsets();
+        }
+    };
+
+    // Avoid toggling fullscreen on UI clicks
+    private View.OnClickListener doNothingOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {}
+    };
+
+    private void updateSystemUI() {
         if (mIsFullScreen) {
             fadeOut(topToolbar, topShadow, bottomToolbar, bottomShadow);
         } else {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void toggleSystemUI() {
+    private void toggleSystemUI() {
         mIsFullScreen = !mIsFullScreen;
         updateSystemUI();
     }
